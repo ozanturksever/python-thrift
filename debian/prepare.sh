@@ -68,16 +68,7 @@ if [ "$project_name"x == "x" ] || [ "$version"x == "x" ] || [ "$repository_direc
     usage
 fi
 
-
 log "Starting to prepare ${package_directory} directory"
 rm -rf ${package_directory}
 mkdir -p ${package_directory}
-
-cp -r ${repository_directory}/*-info ${package_directory}
-
-if [ "${dst_dist}" == "10.04" ]; then
-    cp -r ${repository_directory}/thrift-10.04-amd64 ${package_directory}/thrift
-fi
-if [ "${dst_dist}" == "12.04" ]; then
-    cp -r ${repository_directory}/thrift-12.04-amd64 ${package_directory}/thrift
-fi
+rsync -a --exclude=.git --exclude=debian/ --exclude=.idea --exclude=.DS_Store ${repository_directory}/${dst_dist}/ ${package_directory}
